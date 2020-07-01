@@ -1,4 +1,8 @@
 from django.db import models
+from SalaDeAula.models import SalaDeAula
+from Disciplina.models import Disciplina
+from Professor.models import Professor
+from Turma.models import Turma 
 
 class SlotDeHorario(models.Model):
     posicao = models.IntegerField(unique = True)
