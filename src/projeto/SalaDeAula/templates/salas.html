@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+    <meta charset="utf-8">
+    <script type="text/javascript">
+
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href='{% static "/otime/css/modal.css" %}'>
+    <title>O'time</title>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href='{% static "otime/bootstrap/bootstrap.css" %}'>
+    <link rel="stylesheet" href='{% static "otime/bootstrap/bootstrap.js" %}'>
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href='{% static "otime/css/estilo_sala.css" %}'>
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    </head>
+    <body>
+    <table id='minhaTabela'>
+      <a href='#'><h2>O'Time</h2></a>
+        <thead>
+          <tr>
+            <th>SALAS</th>
+              <th>
+                <div class="bs-example">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-outline-light" data-toggle="modal" data-target="#myBtn"> Novo </button>
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+        <tbody>
+          {% for indice, sala in salas.items %}
+            <tr>
+              <td>{{ sala.nome }}</td>
+              <td>
+               <a href="update/sala/{{sala.id}}">Detalhes</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="modal fade" id="myBtn" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3>NOVA SALA</h3>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <form method="POST">
+                {% csrf_token %}
+                <label for="id_nome">Nome:</label><input name="nome" maxlength="40" required="" id="id_nome" type="text">
+                <label for="id_tipo">Tipo:</label><select name="tipo" required="" id="id_tipo">
+                <option value="" selected="">---------</option>
+
+                <option value="Sala regular">Sala regular</option>
+
+                <option value="Laboratório">Laboratório</option>
+
+                <option value="Audiovisual">Audiovisual</option>
+
+                <option value="Auditório">Auditório</option>
+
+                <option value="Miniauditório">Miniauditório</option>
+
+                </select>
+                <label for="id_numero">Numero:</label><input name="numero" required="" id="id_numero" type="number">
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Fechar</button>
+              <button type="submit" class="btn btn-outline-success" onclick="salvarSala()">Salvar</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+     <!-- jQuery CDN - Slim version (=without AJAX) -->
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+      <script src='{% static "jquery/jquery.mim.js" %}'></script>
+      <script src='{% static "jquery/jquery-3.2.1.slim.min.js" %}'></script>
+      <script src='{% static "jquery/jquery.js" %}'></script>
+      <!-- Popper.JS -->
+      <script src='{% static "popper/popper.mim.js" %}'></script>
+      <!-- Bootstrap JS -->
+      <script src='{% static "bootstrap/js/bootstrap.js" %}'></script>
+      <script src='{% static "bootstrap/js/bootstrap.bundle.min.js" %}'></script>
+      <!-- javascript JS -->
+      <script type="text/javascript">
+      function salvarSala() {
+        requisicao = new XMLHttpRequest();
+        requisicao.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 201) {
+          json = JSON.parse(requisicao.response);
+          id = json["id"];
+          nome_objeto = json["nome"];
+
+          tabela = document.getElementById("minhaTabela");
+          nova_linha = tabela.insertRow();
+          titulo = nova_linha.insertCell();
+          detalhes = nova_linha.insertCell();
+
+          titulo.innerHTML = nome_objeto;
+          detalhes.innerHTML = "<a href='update/sala/" + String(id) + "'/>Detalhes</a>";
+        }
+      };
+        requisicao.open("POST", "salas/", true);
+        requisicao.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        nome = document.getElementById("id_nome").value;
+        tipo = document.getElementById("id_tipo").value;
+        numero = document.getElementById("id_numero").value;
+        requisicao.send("csrfmiddlewaretoken=" + "{{ csrf_token }}" + "&nome=" + nome + "&tipo=" + tipo + "&numero=" + numero);
+      };
+
+      $(".rows").click
+      (
+        function(e)
+        {
+          window.location.replace($(this).data('href'));
+          return false;
+        }
+      )
+      </script>
+      <script>
+      $(document).ready(function(){
+          $(".dropdown-toggle").dropdown();
+      });
+     </script>
+</html>

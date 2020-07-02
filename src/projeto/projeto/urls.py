@@ -8,14 +8,17 @@ from SalaDeAula.api.viewsets import SalaDeAulaViewSet
 from SlotDeHorario.api.viewsets import SlotDeHorarioViewSet
 from Turma.api.viewsets import TurmaViewSet
 
+from SalaDeAula import views
+
 rotas = routers.DefaultRouter()
 rotas.register(r'disciplinas', DisciplinaViewSet)
 rotas.register(r'professores', ProfessorViewSet)
 rotas.register(r'salas', SalaDeAulaViewSet)
 rotas.register(r'turmas', TurmaViewSet)
-rotas.register(r'slots', SlotDeHorarioViewSet) 
+rotas.register(r'slots', SlotDeHorarioViewSet)
 
 urlpatterns = [
     path('', include(rotas.urls)),
+    path("listarSalas", views.listarSalas, name = "salas"),
     path('admin/', admin.site.urls),
 ]
