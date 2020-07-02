@@ -20,7 +20,7 @@ rotas.register(r'slots', SlotDeHorarioViewSet)
 
 urlpatterns = [
     path('', include("main.urls")),
-    path('api', include(rotas.urls)),
+    path('api/', include(rotas.urls)),
     path("listarSalas", views.listarSalas, name = "salas"),
     path('admin/', admin.site.urls),
 ]

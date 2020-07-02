@@ -3,12 +3,12 @@ import requests
 
 # Create your views here.
 def listarSalas(request):
-    endereco = "http://localhost:8000/salas"
+    endereco = "http://localhost:8000/api/salas"
     requisicao = requests.get(endereco)
 
     try:
         lista = requisicao.json()
-    except valueError:
+    except ValueError:
         print("O formato da resposta não é o esperado.")
 
     dicionario = {}
