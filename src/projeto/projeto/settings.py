@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'Professor',
     'Turma',
     'SlotDeHorario',
+    'main',
 ]
 
 MIDDLEWARE = [

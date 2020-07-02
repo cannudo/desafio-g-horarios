@@ -7,6 +7,7 @@ from Professor.api.viewsets import ProfessorViewSet
 from SalaDeAula.api.viewsets import SalaDeAulaViewSet
 from SlotDeHorario.api.viewsets import SlotDeHorarioViewSet
 from Turma.api.viewsets import TurmaViewSet
+from main.views import home
 
 from SalaDeAula import views
 
@@ -18,7 +19,8 @@ rotas.register(r'turmas', TurmaViewSet)
 rotas.register(r'slots', SlotDeHorarioViewSet)
 
 urlpatterns = [
-    path('', include(rotas.urls)),
+    path('', include("main.urls")),
+    path('api', include(rotas.urls)),
     path("listarSalas", views.listarSalas, name = "salas"),
     path('admin/', admin.site.urls),
 ]
