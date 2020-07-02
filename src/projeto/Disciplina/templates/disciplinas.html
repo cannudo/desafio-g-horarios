@@ -51,7 +51,7 @@
               <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-              <form method="POST">
+              <form method="POST" onsubmit="return false">
                 {% csrf_token %}
                 <label for="id_nome">Nome:</label><input name="nome" maxlength="25" required="" id="id_nome" type="text">
                 <label for="id_codigo">Codigo:</label><input name="codigo" maxlength="25" required="" id="id_codigo" type="text">
